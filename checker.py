@@ -14,8 +14,8 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 # Configuration
 XRAY_BIN = "./xray"  # Assumes xray is in current dir
 CHECK_URL = "http://www.google.com" # Or a lighter weight target
-TIMEOUT = 10 # Seconds for curl/connect
-MAX_THREADS = 50 # Adjust based on runner capability
+TIMEOUT = 6 # Seconds for curl/connect
+MAX_THREADS = 200 # Faster scraping
 BATCH_SIZE = 5000 # Save files in chunks of 5000
 BASE_PORT = 20000
 
@@ -200,7 +200,7 @@ def check_proxy(link, thread_id):
         proc = subprocess.Popen([XRAY_BIN, "run", "-c", config_file], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         
         # Give it a moment to start
-        time.sleep(2)
+        time.sleep(0.5)
         
         # 4. Curl check
         # curl -x socks5h://127.0.0.1:PORT
