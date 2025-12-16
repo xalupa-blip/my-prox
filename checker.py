@@ -239,7 +239,6 @@ def check_proxy(link, thread_id):
 
 def fetch_proxies():
     print("Fetching proxies...")
-    print("Fetching proxies...")
     links = set()
     
     # CONFIGURATION
@@ -277,7 +276,7 @@ def fetch_proxies():
         
         if success:
             content = resp.text
-
+            
             # Try base64 decode if it looks like a blob
             if "vmess://" not in content and "vless://" not in content:
                 try:
