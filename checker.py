@@ -278,23 +278,21 @@ def fetch_proxies():
         if success:
             content = resp.text
 
-                # Try base64 decode if it looks like a blob
-                if "vmess://" not in content and "vless://" not in content:
-                     try:
-                         decoded = base64.b64decode(content).decode('utf-8')
-                         content = decoded
-                     except:
-                         pass
-                
-                # Extract lines
-                for line in content.splitlines():
-                    line = line.strip()
-                    if line and (line.startswith("vmess://") or line.startswith("vless://") or 
-                                 line.startswith("trojan://") or line.startswith("ss://")):
-                        links.add(line)
-            print(f"Fetched {url} - Total unique: {len(links)}")
-        except Exception as e:
-            print(f"Failed to fetch {url}: {e}")
+            # Try base64 decode if it looks like a blob
+            if "vmess://" not in content and "vless://" not in content:
+                 try:
+                     decoded = base64.b64decode(content).decode('utf-8')
+                     content = decoded
+                 except:
+                     pass
+            
+            # Extract lines
+            for line in content.splitlines():
+                line = line.strip()
+                if line and (line.startswith("vmess://") or line.startswith("vless://") or 
+                             line.startswith("trojan://") or line.startswith("ss://")):
+                    links.add(line)
+        print(f"Fetched {url} - Total unique: {len(links)}")
     return list(links)
 
 def main():
