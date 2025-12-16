@@ -280,11 +280,11 @@ def fetch_proxies():
 
             # Try base64 decode if it looks like a blob
             if "vmess://" not in content and "vless://" not in content:
-                 try:
-                     decoded = base64.b64decode(content).decode('utf-8')
-                     content = decoded
-                 except:
-                     pass
+                try:
+                    decoded = base64.b64decode(content).decode('utf-8')
+                    content = decoded
+                except:
+                    pass
             
             # Extract lines
             for line in content.splitlines():
