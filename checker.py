@@ -310,5 +310,114 @@ def load_queue():
             print(f"Error loading queue: {e}")
     return []
 
+def save_queue(proxies):
+    # Overwrite the queue file with remaining proxies
+    with open(QUEUE_FILE, 'w') as f:
+        f.write("\n".join(proxies))
+    print(f"Saved {len(proxies)} proxies back to queue file.")
+
+def main():
+    start_time = time.time()
+    
+    if not shutil.which(XRAY_BIN) and not os.path.exists(XRAY_BIN):
+        print(f"Error: {XRAY_BIN} not found. Please install Xray-core.")
+        sys.exit(1)
+
+    # 1. Load Proxies (Queue or Fetch)
+    all_links = load_queue()
+    if not all_links:
+        all_links = fetch_proxies()
+        # Shuffle for randomness if just fetched
+        random.shuffle(all_links)
+    
+    print(f"Total proxies to check: {len(all_links)}")
+    if len(all_links) == 0:
+        print("No proxies to check.")
+        return
+
+    working_proxies = []
+    checked_count = 0
+    
+    remaining_links = []
+    
+    with ThreadPoolExecutor(max_workers=MAX_THREADS) as executor:
+        # Create a dict to map future to link
+        future_to_link = {}
+        
+        link_iterator = iter(all_links)
+        exhausted = False
+        
+        while len(working_proxies) < TARGET_WORKING_COUNT and not exhausted:
+            # Check Time Limit
+            if time.time() - start_time > MAX_RUNTIME:
+                print(f"Time limit reached ({MAX_RUNTIME}s). Stopping early to save state.")
+                break
+
+            # Fill up the pool
+            while len(future_to_link) < MAX_THREADS * 2:
+                try:
+                    link = next(link_iterator)
+                    future = executor.submit(check_proxy, link, len(future_to_link) % MAX_THREADS)
+                    future_to_link[future] = link
+                except StopIteration:
+                    exhausted = True
+                    break
+            
+            if not future_to_link:
+                break
+                
+            # Process completed (with time check in loop)
+            # We use a trick to poll: wait small amount or just check done
+            
+            # Simple check: peek at futures
+            if not future_to_link:
+                break
+                
+            # Wait for at least one, with timeout
+            try:
+                # Get the first completed from the current set
+                for future in as_completed(future_to_link.keys(), timeout=1):
+                    result_success, result_link = future.result()
+                    checked_count += 1
+                    
+                    if result_success:
+                        working_proxies.append(result_link)
+                        print(f"[{len(working_proxies)}/{TARGET_WORKING_COUNT}] FOUND: {result_link[:30]}...")
+                    
+                    del future_to_link[future]
+                    
+                    # Exit conditions
+                    if len(working_proxies) >= TARGET_WORKING_COUNT:
+                        break
+                    if time.time() - start_time > MAX_RUNTIME:
+                        break
+            except Exception:
+                # Timeout on as_completed (no proxy finished in 1s), just continue loop to check time
+                pass
+
+            if len(working_proxies) >= TARGET_WORKING_COUNT:
+                print("Target working count reached.")
+                break
+            
+        # Collect remaining from iterator
+        current_processing = list(future_to_link.values()) 
+        # Recover unchecked links from futures (if we didn't wait for them)
+        remaining_links = list(future_to_link.values()) + list(link_iterator)
+            
+    # Save Results
+    if working_proxies:
+        with open(RESULTS_FILE, "a") as f: 
+            f.write("\n".join(working_proxies) + "\n")
+        print(f"Saved {len(working_proxies)} proxies to {RESULTS_FILE}")
+
+    # Save State
+    if not remaining_links and exhausted and not future_to_link:
+        print("Queue exhausted. Deleting queue file to fetch fresh next time.")
+        if os.path.exists(QUEUE_FILE):
+            os.remove(QUEUE_FILE)
+    else:
+        # Save remaining
+        save_queue(remaining_links)
+
 if __name__ == "__main__":
     main()
