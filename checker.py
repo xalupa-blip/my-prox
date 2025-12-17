@@ -306,6 +306,9 @@ def load_queue():
             if lines:
                 print(f"Loaded {len(lines)} proxies from queue file.")
                 return lines
+        except Exception as e:
+            print(f"Error loading queue: {e}")
+    return []
 
 if __name__ == "__main__":
     main()
