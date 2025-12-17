@@ -16,8 +16,12 @@ XRAY_BIN = "./xray"  # Assumes xray is in current dir
 CHECK_URL = "http://www.google.com" # Or a lighter weight target
 TIMEOUT = 6 # Seconds for curl/connect
 MAX_THREADS = 200 # Faster scraping
-BATCH_SIZE = 5000 # Save files in chunks of 5000
 BASE_PORT = 20000
+
+# Staged Execution Config
+TARGET_WORKING_COUNT = 1000 # Stop after finding this many working proxies
+QUEUE_FILE = "proxies_queue.txt" # File to store unchecked proxies
+RESULTS_FILE = "proxy_list_found.txt" # File to store working proxies (appended or overwritten)
 
 def parse_vmess(link):
     """Parse vmess:// link to Xray outbound config object."""
@@ -57,9 +61,6 @@ def parse_vmess(link):
             }
 
         except Exception:
-            # Maybe it's not JSON base64, usually vmess is. 
-            # If the user script handles URL parameters for vmess, we might need that too.
-            # But standard vmess sharing is usually base64 json.
             return None
     except Exception as e:
         return None
@@ -133,7 +134,7 @@ def parse_ss(link):
         
         # Try generic decode
         try:
-             # Fix padding
+            # Fix padding
             padding = len(user_info) % 4
             if padding: user_info += '=' * (4 - padding)
             decoded_user = base64.urlsafe_b64decode(user_info).decode('utf-8')
@@ -233,12 +234,14 @@ def check_proxy(link, thread_id):
                 proc.kill()
         
         if os.path.exists(config_file):
-            os.remove(config_file)
+            try:
+                os.remove(config_file)
+            except: pass
             
     return success, link
 
 def fetch_proxies():
-    print("Fetching proxies...")
+    print("Fetching new proxies from sources...")
     links = set()
     
     # CONFIGURATION
@@ -266,13 +269,14 @@ def fetch_proxies():
         except Exception:
             # Try Backup Source
             url = f"https://raw.githubusercontent.com/{BACKUP_USER}/{BACKUP_REPO}/main/mini/{filename}"
-            print(f"Primary failed for {filename}, trying backup: {url}")
+            # print(f"Primary failed for {filename}, trying backup: {url}")
             try:
                 resp = requests.get(url, timeout=10)
                 if resp.status_code == 200:
                     success = True
             except Exception as e:
-                print(f"Failed to fetch {filename} from both sources: {e}")
+                pass
+                # print(f"Failed to fetch {filename} from both sources: {e}")
         
         if success:
             content = resp.text
@@ -291,57 +295,162 @@ def fetch_proxies():
                 if line and (line.startswith("vmess://") or line.startswith("vless://") or 
                              line.startswith("trojan://") or line.startswith("ss://")):
                     links.add(line)
-        print(f"Fetched {url} - Total unique: {len(links)}")
+        # print(f"Fetched {url} - Total unique so far: {len(links)}")
     return list(links)
+
+def load_queue():
+    if os.path.exists(QUEUE_FILE):
+        try:
+            with open(QUEUE_FILE, 'r') as f:
+                lines = [l.strip() for l in f.readlines() if l.strip()]
+            if lines:
+                print(f"Loaded {len(lines)} proxies from queue file.")
+                return lines
+        except Exception as e:
+            print(f"Error loading queue: {e}")
+    return []
+
+def save_queue(proxies):
+    # Overwrite the queue file with remaining proxies
+    with open(QUEUE_FILE, 'w') as f:
+        f.write("\n".join(proxies))
+    print(f"Saved {len(proxies)} proxies back to queue file.")
 
 def main():
     if not shutil.which(XRAY_BIN) and not os.path.exists(XRAY_BIN):
         print(f"Error: {XRAY_BIN} not found. Please install Xray-core.")
         sys.exit(1)
 
-    all_links = fetch_proxies()
+    # 1. Load Proxies (Queue or Fetch)
+    all_links = load_queue()
+    if not all_links:
+        all_links = fetch_proxies()
+        # Shuffle for randomness if just fetched
+        random.shuffle(all_links)
+    
     print(f"Total proxies to check: {len(all_links)}")
-    
+    if len(all_links) == 0:
+        print("No proxies to check.")
+        return
+
     working_proxies = []
+    checked_count = 0
     
-    # Process Pool might be safer for heavy IO/Subprocess load, but ThreadPool is okay since subproc is external
+    # We will iterate manually to control the stop condition clearer
+    # But ThreadPool is good. We need a way to cancel or stop consuming.
+    # Approach: Submit all, but if we hit target, we try to cancel pending or just ignore results?
+    # Better: Chunking or manual queue management.
+    # Simplest for this script: Use executor.map or as_completed, but check condition in loop.
+    
+    # Note: canceling futures in python is hard if they are running. 
+    # But checking 200 extra is fine.
+    
+    remaining_links = []
+    
+    # We will process in chunks or just iterate. 
+    # Since we want to stop EXACTLY (or close to) at 1000, we should check status.
+    
     with ThreadPoolExecutor(max_workers=MAX_THREADS) as executor:
-        future_to_link = {
-            executor.submit(check_proxy, link, i % MAX_THREADS): link 
-            for i, link in enumerate(all_links)
-        }
+        # Create a dict to map future to link
+        future_to_link = {}
         
-        completed = 0
-        for future in as_completed(future_to_link):
-            success, link = future.result()
-            completed += 1
-            if success:
-                print(f"[{completed}/{len(all_links)}] WORK: {link[:30]}...")
-                working_proxies.append(link)
-            else:
-                # quiet fail
-                pass
+        # We submit them all? No, if we have 100k links, submitting all is memory heavy.
+        # Let's submit in batches of 2000 (10x threads) to keep it flowing but controllable.
+        
+        link_iterator = iter(all_links)
+        exhausted = False
+        
+        while len(working_proxies) < TARGET_WORKING_COUNT and not exhausted:
+            # Fill up the pool
+            while len(future_to_link) < MAX_THREADS * 2:
+                try:
+                    link = next(link_iterator)
+                    future = executor.submit(check_proxy, link, len(future_to_link) % MAX_THREADS)
+                    future_to_link[future] = link
+                except StopIteration:
+                    exhausted = True
+                    break
+            
+            if not future_to_link:
+                break
                 
-            if completed % 100 == 0:
-                print(f"Progress: {completed}/{len(all_links)} checked. {len(working_proxies)} working.")
+            # Wait for some to complete
+            # We use polling or just wait for one? as_completed on keys?
+            # Creating a list of keys to pass to as_completed is tricky if we modify dict.
+            # Convert current futures to list
+            done_futures = []
+            for future in as_completed(future_to_link.keys()):
+                result_success, result_link = future.result()
+                checked_count += 1
+                
+                if result_success:
+                    working_proxies.append(result_link)
+                    print(f"[{len(working_proxies)}/{TARGET_WORKING_COUNT}] FOUND: {result_link[:30]}...")
+                
+                # Remove from dict
+                del future_to_link[future]
+                
+                # Check exit condition immediately
+                if len(working_proxies) >= TARGET_WORKING_COUNT:
+                    print("Target working proxies count reached.")
+                    # We should stop submitting and maybe cancel pending?
+                    # For simplicity, we just stop filling and let pending finish or ignore.
+                    # To "Stop" effectively, we break the loop. 
+                    # But we are inside as_completed? 
+                    # actually as_completed yields ONE by ONE. so we break immediately.
+                    break
+                    
+                # Refill if needed (optional optimization, but outer loop handles it)
+                if len(future_to_link) < MAX_THREADS:
+                    break # Go back to outer loop to refill
+            
+        # Collect remaining from iterator
+        current_processing = list(future_to_link.values()) # These are "lost" or "being checked" -> effectively "checked" or "skipped"
+        # Ideally we put them back in queue? 
+        # If we exit abruptly, the futures running will finish but we might not record them.
+        # It's better to verify all running futures if we care about "wasting" them.
+        # But for "Stop now", we can just assume they are checked-failed or ignored.
+        # To be safe for "Next Run", we should save everything that was NOT in `future_to_link` and NOT in `working`?
+        # `link_iterator` has the REST.
+        
+        remaining_links = list(link_iterator)
+        
+        # If we stopped early, we also have the ones in `future_to_link` that didn't finish?
+        # Actually, if we `break` out of `as_completed`, the loop finishes.
+        # We should wait for pending to be nice, or just kill.
+        # Let's wait for pending checks to finish to avoid zombie processes (xray)
+        print("Finishing pending checks...")
+        for f in future_to_link:
+            try:
+                s, l = f.result()
+                if s and len(working_proxies) < TARGET_WORKING_COUNT: # Optional: add bonus proxies?
+                    working_proxies.append(l)
+            except: pass
+            
+    # Save Results
+    if working_proxies:
+        with open(RESULTS_FILE, "a") as f: # Append mode? Or overwrite? User said "create file"
+            # If we append, we might have duplicates if we don't clean.
+            # But since queue is unique, we shouldn't have dupes.
+            # Let's use overwrite for the BATCH results, or append?
+            # "create file" implies a new specific file.
+            # Let's use "proxy_list.txt" and OVERWRITE it with the CURRENT 1000.
+            # The user can collect them from git history or different buckets if they want.
+            # User request: "create file and exit". 
+            f.write("\n".join(working_proxies) + "\n")
+        print(f"Saved {len(working_proxies)} proxies to {RESULTS_FILE}")
 
-    print(f"Finished. Total working: {len(working_proxies)}")
+    # Save State
+    # Remaining = remaining_links (from iterator)
     
-    # Save to files
-    # Remove old files first
-    for f in os.listdir("."):
-        if f.startswith("proxy_list_") and f.endswith(".txt"):
-            os.remove(f)
-
-    # Split into chunks
-    chunk_count = 1
-    for i in range(0, len(working_proxies), BATCH_SIZE):
-        batch = working_proxies[i : i + BATCH_SIZE]
-        filename = f"proxy_list_{chunk_count}.txt"
-        with open(filename, "w") as f:
-            f.write("\n".join(batch))
-        print(f"Saved {len(batch)} proxies to {filename}")
-        chunk_count += 1
+    # If we exhausted everything and didn't reach 1000:
+    if not remaining_links and exhausted:
+        print("Queue exhausted. Deleting queue file to fetch fresh next time.")
+        if os.path.exists(QUEUE_FILE):
+            os.remove(QUEUE_FILE)
+    else:
+        # Save remaining
+        save_queue(remaining_links)
 
 if __name__ == "__main__":
     main()

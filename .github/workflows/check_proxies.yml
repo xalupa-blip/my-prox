@@ -2,7 +2,7 @@ name: Proxy Checker
 
 on:
   schedule:
-    - cron: '0 */6 * * *' # Run every 6 hours
+    - cron: '*/5 * * * *' # Run every 5 minutes
   workflow_dispatch:      # Allow manual trigger
 
 permissions:
@@ -43,13 +43,13 @@ jobs:
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         
-        # Add all proxy list files
-        git add proxy_list_*.txt
+        # Add proxy list and the queue state file
+        git add proxy_list_found.txt proxies_queue.txt
         
         # Commit if there are changes
         if git diff --staged --quiet; then
           echo "No changes to commit."
         else
-          git commit -m "Update working proxies [$(date)]"
+          git commit -m "Update proxies [$(date)]"
           git push
         fi
