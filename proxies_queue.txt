@@ -7,7 +7,6 @@ vmess://eyJhZGQiOiJmcmFua2Z1cnQwMy56Z2pvay5jb20iLCJhaWQiOiIwIiwiYWxwbiI6IiIsImZw
 vless://ae9539b5-70dd-41b5-9666-11a29559a840@84.47.233.110:59761?security=none&encryption=none&host=Fast.com&headerType=http&type=tcp#IR_4702_@Surfboardv2ray
 vless://df0680ca-e43c-498d-ed86-8e196eedd012@84.32.9.18:8880?security=none&type=grpc#@MoftConfigUnited StatesSecaucusping:44.91ms
 vless://005a5104-82c5-4a6b-b023-6e621ec9071d@95.164.45.122:50268/?type=tcp&encryption=none#Telegram:@IP_CF
-vmess://eyJ2IjogIjIiLCAicHMiOiAi5Y2w5bqmXzc0IiwgImFkZCI6ICJnemR4Lmpjbm9kZS50b3AiLCAicG9ydCI6IDI1MDAwLCAiYWlkIjogMCwgInNjeSI6ICJhdXRvIiwgIm5ldCI6ICJ3cyIsICJ0eXBlIjogIm5vbmUiLCAidGxzIjogIiIsICJpZCI6ICIwYWI0OGEzNS01ZmYyLTRkMTgtYmM3NC1mNDhlYjViZWJlNjcifQ==
 vless://e4824193-4f54-453b-d037-88368e85ef0e@45.82.251.133:8880?security=none&sni=pqh26v3.sport26tennis.shop&type=grpc&host=pqh26v3.sport26tennis.shop#@MoftConfigMexicoMexico Cityping:100.06ms
 trojan://telegram-id-directvpn@13.39.253.187:22223?security=tls&alpn=http/1.1&headerType=none&type=tcp&sni=trojan.burgerip.co.uk#OurChannel : @DirectVPN
 ss://YWVzLTI1Ni1nY206VEV6amZBWXEySWp0dW9T@85.208.108.59:6697#%F0%9F%87%A8%F0%9F%87%A6CA-85.208.108.59-5695
