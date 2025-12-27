@@ -197,7 +197,6 @@ ss://YWVzLTI1Ni1nY206S2l4THZLendqZWtHMDBybQ==@38.86.135.169:5500# b2n.ir/v2ray-c
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpFcGw0NmRlNXJ5ZnR1Zzg4ZVBk@104.168.13.80:8080#4Kian-309
 vmess://eyJ2IjogIjIiLCAicHMiOiAiNDE4X+mmmea4ry00LjA0TUIiLCAiYWRkIjogIjQzLjE1NS43MC4yNCIsICJwb3J0IjogIjQ2MTA2IiwgImFpZCI6ICI2NCIsICJzY3kiOiAiYXV0byIsICJuZXQiOiAid3MiLCAidHlwZSI6ICJub25lIiwgInRscyI6ICJ0bHMiLCAiaWQiOiAiY2UzZjBiOTgtNzQxNC00OThlLTlkMGQtMjBjYzM3MzYwODk2In0=
 vless://d2e148df-dba4-4457-afd1-b1ad9b420685@lon5.vpntype.dev:443?security=tls&encryption=none&alpn=h2,http/1.1&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision#%20United Kingdom
-vless://1859f2db-e6e8-4dc4-b21e-99da517e2e62@45.15.127.139:4443?security=reality&encryption=none&pbk=5XB_N3ATilH-6tp_MXht-84_y5YaJnx_Z7MbuY2otHE&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=github.com&sid=aa7e96542880027a#[]t.me/ConfigsHub
 vless://c5293efa-28f8-4a0f-8f34-541078970cee@45.131.4.192:80?path=Telegram%F0%9F%87%A8%F0%9F%87%B3%40WangCai2%2F%3Fed%3D2560&security=none&encryption=none&host=gozargah.validbv7996.ir&type=ws#[]t.me/ConfigsHub
 ss://YWVzLTI1Ni1nY206a0RXdlhZWm9UQmNHa0M0@85.208.108.59:8882#%F0%9F%87%A8%F0%9F%87%A6CA-85.208.108.59-5751
 vless://a64f0cea-ca89-40e6-b316-b3badff1eb90@172.67.68.101:443?security=tls&sni=IsaA1.pAgEs.DEV&type=ws&host=ISAa1.PAGeS.deV&path=%2Fvlees_v2rayng%3Fed%3D2560# VL-WS-TLS  NA-172.67.68.101:443
