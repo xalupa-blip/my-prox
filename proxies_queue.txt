@@ -10,7 +10,6 @@ vless://005a5104-82c5-4a6b-b023-6e621ec9071d@95.164.45.122:50268/?type=tcp&encry
 vless://e4824193-4f54-453b-d037-88368e85ef0e@45.82.251.133:8880?security=none&sni=pqh26v3.sport26tennis.shop&type=grpc&host=pqh26v3.sport26tennis.shop#@MoftConfigMexicoMexico Cityping:100.06ms
 trojan://telegram-id-directvpn@13.39.253.187:22223?security=tls&alpn=http/1.1&headerType=none&type=tcp&sni=trojan.burgerip.co.uk#OurChannel : @DirectVPN
 ss://YWVzLTI1Ni1nY206VEV6amZBWXEySWp0dW9T@85.208.108.59:6697#%F0%9F%87%A8%F0%9F%87%A6CA-85.208.108.59-5695
-ss://YWVzLTEyOC1nY206Q3JlYW1EYXRh@e78b1f.rydkud.xyz:27625#%E5%9C%9F%E8%80%B3%E5%85%B62%7C0.1M%2Fs
 vmess://eyJhaWQiOiAiMCIsICJzY3kiOiAiYXV0byIsICJwcyI6ICJcdWQ4M2NcdWRkZTZcdWQ4M2NcdWRkZjYtXHU0ZTlhXHU1OTJhXHU1NzMwXHU1MzNhLTEwMy4xNjcuMTk2LjUyIiwgIm5ldCI6ICJ3cyIsICJwb3J0IjogIjgwIiwgImFkZCI6ICIxMDMuMTY3LjE5Ni41MiIsICJza2lwLWNlcnQtdmVyaWZ5IjogImZhbHNlIiwgInRscyI6ICJmYWxzZSIsICJ0eXBlIjogIm5vbmUiLCAiaWQiOiAiNTY3MTZhOTYtYTI2NS00NDhjLTg5NjktMDNlNjI2ODg5NTgwIiwgIndzLW9wdHMiOiAiIiwgImhlYWRlcnMiOiAiIiwgImhvc3QiOiAiZGwua2d2bi5nYXJlbmFub3cuY29tIiwgInBhdGgiOiAiLyJ9
 vless://4ffec487-ed8a-412f-90ef-4b7b6145ad58@93.127.180.144:7444?security=none&encryption=none&host=p30afzar.com&headerType=http&type=tcp#[]t.me/ConfigsHub
 vless://137c2b05-bcd7-4fe7-a2bb-25b25b25e366@ippool.penubit.site:2087?encryption=none&type=httpupgrade&host=ndgr.penubit.site&path=/Penubit&security=tls&fp=chrome&sni=ndgr.penubit.site&alpn=http/1.1&mux=4#4Kian-5438
