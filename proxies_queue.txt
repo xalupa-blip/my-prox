@@ -142,7 +142,6 @@ vless://6ea73e99-ff74-40c7-9fae-d02520bf429e@88.218.227.193:443?security=none&en
 trojan://telegram-id-privatevpns@13.50.83.104:22222?security=tls&alpn=http/1.1&headerType=none&type=tcp&sni=trojan.burgerip.co.uk#[]t.me/MoftConfig
 ss://YWVzLTI1Ni1nY206ZmFCQW9ENTRrODdVSkc3@167.88.61.175:2375#%F0%9F%87%BA%F0%9F%87%B8US-167.88.61.175-6117
 vless://e45bb170-2043-48a8-ada1-067447ab6f6c@103.246.145.244:25488?security=reality&encryption=none&pbk=eu_CdEUxOB3IiXYq-t70TjU3tXwgrJFusHWUmqzFXS4&headerType=none&fp=chrome&type=tcp&sni=refersion.com&sid=2ed15414d2#[]t.me/ConfigsHub
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpYSkxTSFVrZXZvUkhtaWRTcDV4ZUdkOGd3dUJCQlRUcDF5VllDZzZrWUJBMkZnSmJNd0dqbkx1VG5xY21OS1dLZGdQREg4ZDdtOWFnN1Zmc0JCaFcxck1jNDdjZ1g1dXA=@185.5.38.111:55988#[]t.me/ConfigsHub
 vless://502ce704-dcec-4f92-9489-505c99ce6c89@f4.sarasimano.com:2096?path=/&security=tls&encryption=none&type=ws#4Kian-7544
 vless://53fff6cc-b4ec-43e8-ade5-e0c42972fc33@193.151.135.21:44443?security=reality&encryption=none&pbk=XHjKkrNBYXOaamOx8IUCrwX0zp5dAQRVErHiQ5bwAEQ&headerType=none&type=tcp&flow=xtls-rprx-vision&sni=www.speedtest.net# b2n.ir/v2ray-configs | 846
 vmess://eyJ2IjoiMiIsInBzIjoi8J+HuPCfh6wgX1VTX+e+juWbvS0+8J+HuPCfh6xfU0df5paw5Yqg5Z2hIiwiYWRkIjoic2cuaGVyb2ZyZWU2Ni50ayIsInBvcnQiOiI0NDMiLCJ0eXBlIjoibm9uZSIsImlkIjoiNWUzZDQ3NTctMTM5NS00ODQzLWQ0OTgtYmY3MzE3NDcwMDg1IiwiYWlkIjoiMCIsIm5ldCI6IndzIiwicGF0aCI6Ii8iLCJob3N0Ijoic2cuaGVyb2ZyZWU2Ni50ayIsInRscyI6InRscyJ9
@@ -198,7 +197,6 @@ vless://0a9f614f-c922-4003-84d5-b1488a18e49b@194.182.79.7:19123?mode=gun&securit
 vmess://eyJhZGQiOiI1Ny4xMjkuNTkuMTkzIiwiYWlkIjoiMCIsImFscG4iOiJodHRwLzEuMSIsImZwIjoiY2hyb21lIiwiaG9zdCI6InNlcmthdC5vcmciLCJpZCI6IjAzZmNjNjE4LWI5M2QtNjc5Ni02YWVkLThhMzhjOTc1ZDU4MSIsIm5ldCI6IndzIiwicGF0aCI6Ii9saW5rdndzIiwicG9ydCI6IjQ0MyIsInBzIjoiW/Cfh6nwn4eqXXQubWUvQ29uZmlnc0h1YiIsInNjeSI6ImF1dG8iLCJzbmkiOiJzZXJrYXQub3JnIiwidGxzIjoidGxzIiwidHlwZSI6Ii0tLSIsInYiOiIyIn0=
 vless://934943ff-bc93-4715-ed3c-c7b33cdedb40@65.109.241.111:443?type=tcp&path=%2F&host=zula.ir&headerType=http#https%3A%2F%2Ft.me%2Fcustom_14.-%DA%A9%D8%A7%D9%86%D9%81%DB%8C%D9%86%DA%AF%20%D8%B1%D8%A7%DB%8C%DA%AF%D8%A7%D9%86%20%DA%86%D9%86%D9%84%20%D9%85%D8%A7https%3A%2F%2Ft.me%2Fcustom_14
 vless://2a9ed01e-5455-44b4-a66a-76ee8165f0ac@77.73.232.61:19747?security=reality&encryption=none&pbk=ZO9dTeg1slvTXgVsBsaJ1BDvz_YUImTLJjbHs-GdVyM&headerType=&fp=chrome&type=tcp&sid=2001 # [ By EbraSha ]
-ss://YWVzLTI1Ni1nY206bEdxczk1UWtGSG8yTlY%3D@23.150.248.189:5498#[]t.me/MoftConfig
 trojan://3763495894587285504@exact-chicken.goat627.mom:443?allowInsecure=0&sni=exact-chicken.goat627.mom#[]t.me/ConfigsHub
 vless://7fc993f5-7cd7-4485-9e6f-1f7c5160c910@18.217.223.209:2222?security=none&type=tcp#[]t.me/ConfigsHub
 vless://7e281f58-63b0-4e9a-a3fe-537e33e374b9@node2.svoy.run:443?security=reality&encryption=none&pbk=0_FWbcTe6tvBuSZ7_7PrMaNmg44a8VxYRXPKjZuERwQ&headerType=none&fp=chrome&spx=/&type=tcp&flow=xtls-rprx-vision&sni=www.cloudflare.com&sid=a150dff4#4Kian-8777

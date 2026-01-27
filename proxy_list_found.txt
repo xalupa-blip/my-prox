@@ -7097,3 +7097,4 @@ vless://89d98d66-4695-400d-9fdf-7767af9f24a5@141.227.130.6:46106/?type=grpc&encr
 trojan://auto@172.66.47.150:8443?security=tls&sni=e9464f45.trauma-2r4.pages.dev&type=ws&path=%2F# TR-WS-TLS  NA-172.66.47.150:8443
 trojan://Aimer@27.50.48.186:2083?security=tls&type=tcp&sni=ngepx.ambercc.filegear-sg.me#[]t.me/ConfigsHub
 vless://53fff6cc-b4ec-43e8-ade5-e0c42972fc33@37.120.186.241:80?encryption=none&security=none&type=ws&host=cdn.ir&path=%2Fnews#VL-0918-071
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpYSkxTSFVrZXZvUkhtaWRTcDV4ZUdkOGd3dUJCQlRUcDF5VllDZzZrWUJBMkZnSmJNd0dqbkx1VG5xY21OS1dLZGdQREg4ZDdtOWFnN1Zmc0JCaFcxck1jNDdjZ1g1dXA=@185.5.38.111:55988#[]t.me/ConfigsHub
