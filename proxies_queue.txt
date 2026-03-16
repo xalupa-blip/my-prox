@@ -66,7 +66,6 @@ vless://CHIK_981036@77.91.76.14:443?security=reality&encryption=none&pbk=7YEakrI
 trojan://9e0822c2-75ea-4d30-8895-9fe59da9935c@jsu46352173.edge.huawei-static.com:39596?allowInsecure=1&sni=jsU46352173.edge.huawei-static.com
 vless://f361c445-281f-4ffe-e834-a9eb53282ff2@138.68.75.228:443?mode=gun&security=none&encryption=none&type=grpc#DE_6755_@Surfboardv2ray
 vless://0f7e89d6-9f35-4e94-ba4b-509a724dc177@91.99.228.179:443?mode=auto&path=%2Fds&security=none&encryption=none&type=xhttp#[]t.me/ConfigsHub
-vless://fd0cdd44-2361-11f0-9970-45e1d80c4039@62.60.233.250:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=images.apple.com&fp=chrome&pbk=MFsbnsNQsSpZwP-_Ohzako6aHpfK4-rbssxhr3eywWw&sid=4476a3&spx=%2Fn2XRsQpv11&type=tcp&headerType=none#[]t.me/ConfigsHub
 vmess://eyJ2IjogIjIiLCAicHMiOiAi8J+HuvCfh7gt576O5Zu9LTE1NS4yNDguMTYxLjExMyIsICJhZGQiOiAiMTU1LjI0OC4xNjEuMTEzIiwgInBvcnQiOiAiODA4MCIsICJhaWQiOiAiMCIsICJzY3kiOiAiYXV0byIsICJuZXQiOiAid3MiLCAidHlwZSI6ICJub25lIiwgInRscyI6ICIiLCAiaWQiOiAiOTVhMTdhZTktMjA3ZC00ZjYzLWI1ZjItYzAwNDMwYmVlMWJiIn0=
 trojan://telegram-id-directvpn@51.44.152.34:22223?security=tls&alpn=http/1.1&headerType=none&type=tcp&sni=trojan.burgerip.co.uk#[]t.me/ConfigsHub
 vless://bc6b04f7-951b-4e02-b5e6-83bad04c0acb@germany.ggping.xyz:3993?path=%3Fed%3D2084&security=tls&encryption=none&fp=chrome&type=ws&sni=marzban.negintel.xyz#[]t.me/MoftConfig
